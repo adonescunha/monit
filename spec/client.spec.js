@@ -1,5 +1,27 @@
 require('./spec_helper');
+var nock = require('nock');
 var Client = require('../monit').Client;
+
+var responseBody =  `
+  <?xml version="1.0" encoding="ISO-8859-1"?>
+  <monit>
+    <server>
+      <id>91767252e99b1a45f1d2a21fa42f92f8</id>
+      <incarnation>1453203838</incarnation>
+      <version>5.6</version>
+      <uptime>21360</uptime>
+      <poll>120</poll>
+      <startdelay>0</startdelay>
+      <localhostname>dummy-host</localhostname>
+      <controlfile>/etc/monit/monitrc</controlfile>
+      <httpd>
+        <address>0.0.0.0</address>
+        <port>2812</port>
+        <ssl>0</ssl>
+      </httpd>
+    </server>
+  </monit>
+`;
 
 describe('Client', function() {
   var subject;
@@ -91,27 +113,7 @@ describe('Client', function() {
   describe('parse', function() {
     it('builds a server instance', function(done) {
       var client = new Client();
-      var body = `
-        <?xml version="1.0" encoding="ISO-8859-1"?>
-        <monit>
-          <server>
-            <id>91767252e99b1a45f1d2a21fa42f92f8</id>
-            <incarnation>1453203838</incarnation>
-            <version>5.6</version>
-            <uptime>21360</uptime>
-            <poll>120</poll>
-            <startdelay>0</startdelay>
-            <localhostname>dummy-host</localhostname>
-            <controlfile>/etc/monit/monitrc</controlfile>
-            <httpd>
-              <address>0.0.0.0</address>
-              <port>2812</port>
-              <ssl>0</ssl>
-            </httpd>
-          </server>
-        </monit>
-      `;
-      client.parse(body).then(function() {
+      client.parse(responseBody).then(function() {
         client.server.id.should.equal('91767252e99b1a45f1d2a21fa42f92f8');
         client.server.incarnation.should.equal('1453203838');
         client.server.version.should.equal('5.6');
@@ -119,6 +121,23 @@ describe('Client', function() {
         client.server.startdelay.should.equal(0);
         client.server.localhostname.should.equal('dummy-host');
         client.server.controlfile.should.equal('/etc/monit/monitrc');
+        done();
+      }).catch(function(err) {
+        done(err);
+      });
+    });
+  });
+
+  describe('get', function() {
+    it('makes a request to monit and parses the response', function(done) {
+      var client = new Client();
+      var url = client.getUrl();
+      nock(url)
+        .get('/_status')
+        .query({format: 'xml'})
+        .reply(200, responseBody);
+      client.get().then(function() {
+        client.server.id.should.equal('91767252e99b1a45f1d2a21fa42f92f8');
         done();
       }).catch(function(err) {
         done(err);
