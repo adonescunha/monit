@@ -1,0 +1,15 @@
+{
+  "name": "monit",
+  "version": "0.1.0",
+  "description": "Node interface for Monit",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha spec --recursive"
+  },
+  "keywords": [
+    "monit",
+    "monitoring"
+  ],
+  "author": "Adones Cunha <adonescunha@gmail.com>",
+  "license": "ISC"
+}
