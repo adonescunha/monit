@@ -11,5 +11,9 @@
     "monitoring"
   ],
   "author": "Adones Cunha <adonescunha@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "request": "^2.67.0",
+    "xml2js": "^0.4.16"
+  }
 }
