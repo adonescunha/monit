@@ -4,7 +4,7 @@
   "description": "Node interface for Monit",
   "main": "monit.js",
   "scripts": {
-    "test": "mocha spec --recursive"
+    "test": "istanbul cover -x '**/spec/**' _mocha spec --recursive"
   },
   "keywords": [
     "monit",
