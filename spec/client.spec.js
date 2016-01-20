@@ -23,6 +23,17 @@ var responseBody =  `
   </monit>
 `;
 
+var checkResultMatchResponseBody = function(result) {
+  var serverNode = result.monit.server[0];
+  serverNode.id[0].should.equal('91767252e99b1a45f1d2a21fa42f92f8');
+  serverNode.incarnation[0].should.equal('1453203838');
+  serverNode.version[0].should.equal('5.6');
+  serverNode.poll[0].should.equal('120');
+  serverNode.startdelay[0].should.equal('0');
+  serverNode.localhostname[0].should.equal('dummy-host');
+  serverNode.controlfile[0].should.equal('/etc/monit/monitrc');
+};
+
 describe('Client', function() {
   var subject;
 
@@ -113,14 +124,8 @@ describe('Client', function() {
   describe('parse', function() {
     it('builds a server instance', function(done) {
       var client = new Client();
-      client.parse(responseBody).then(function() {
-        client.server.id.should.equal('91767252e99b1a45f1d2a21fa42f92f8');
-        client.server.incarnation.should.equal('1453203838');
-        client.server.version.should.equal('5.6');
-        client.server.poll.should.equal(120);
-        client.server.startdelay.should.equal(0);
-        client.server.localhostname.should.equal('dummy-host');
-        client.server.controlfile.should.equal('/etc/monit/monitrc');
+      client.parse(responseBody).then(function(result) {
+        checkResultMatchResponseBody(result);
         done();
       }).catch(function(err) {
         done(err);
@@ -136,8 +141,8 @@ describe('Client', function() {
         .get('/_status')
         .query({format: 'xml'})
         .reply(200, responseBody);
-      client.get().then(function() {
-        client.server.id.should.equal('91767252e99b1a45f1d2a21fa42f92f8');
+      client.get().then(function(result) {
+        checkResultMatchResponseBody(result);
         done();
       }).catch(function(err) {
         done(err);
