@@ -1,8 +1,10 @@
 'use strict'
 
-var should = require('chai').should();
-var nock   = require('nock');
-var Client = require('./monit').Client;
+var should                 = require('chai').should();
+var nock                   = require('nock');
+var monit                  = require('./monit');
+var Client                 = monit.Client;
+var UnsupportedActionError = monit.errors.UnsupportedActionError;
 
 var responseBody =  `
   <?xml version="1.0" encoding="ISO-8859-1"?>
@@ -194,6 +196,17 @@ describe('Client', function() {
       });
       client.action().catch(function(err) {
         err.message.should.equal('Service and action must be provided.');
+        done();
+      });
+    });
+
+    it('raises an error when an invalid action is provided', function(done) {
+      var client = new Client();
+      client.action({
+        service: 'dummy-service',
+        action: 'invalid-action'
+      }).catch(function(err) {
+        err.should.be.an.instanceof(UnsupportedActionError);
         done();
       });
     });
