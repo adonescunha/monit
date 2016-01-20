@@ -3,6 +3,13 @@
   "version": "0.1.0",
   "description": "Node interface for Monit",
   "main": "monit.js",
+  "files": [
+    "monit.js",
+    "lib"
+  ],
+  "directories": {
+    "lib": "./lib"
+  },
   "scripts": {
     "test": "istanbul cover -x 'spec.js' _mocha spec --recursive"
   },
@@ -10,8 +17,13 @@
     "monit",
     "monitoring"
   ],
+  "homepage": "https://github.com/adonescunha/monit",
   "author": "Adones Cunha <adonescunha@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adonescunha/monit.git"
+  },
   "devDependencies": {
     "chai": "^3.4.1",
     "coveralls": "^2.11.6",
