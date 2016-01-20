@@ -1,5 +1,5 @@
 # `monit`
-
+[![npm version](https://badge.fury.io/js/monit.svg)](https://badge.fury.io/js/monit)
 [![Build Status](https://travis-ci.org/adonescunha/monit.svg?branch=master)](https://travis-ci.org/adonescunha/monit) [![Coverage Status](https://coveralls.io/repos/adonescunha/monit/badge.svg?branch=master&service=github)](https://coveralls.io/github/adonescunha/monit?branch=master) [![Dependencies Status](https://david-dm.org/adonescunha/monit.svg)](https://david-dm.org/adonescunha/monit)
 
 The `monit` module provides a Node interface to interact with [Monit](https://mmonit.com/monit/) management utility.
