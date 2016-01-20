@@ -1,6 +1,8 @@
-require('./spec_helper');
-var nock = require('nock');
-var Client = require('../monit').Client;
+'use strict'
+
+var should = require('chai').should();
+var nock   = require('nock');
+var Client = require('./monit').Client;
 
 var responseBody =  `
   <?xml version="1.0" encoding="ISO-8859-1"?>
@@ -133,7 +135,7 @@ describe('Client', function() {
     });
   });
 
-  describe('get', function() {
+  describe('status', function() {
     it('makes a request to monit and parses the response', function(done) {
       var client = new Client();
       var url = client.getUrl();
@@ -141,11 +143,58 @@ describe('Client', function() {
         .get('/_status')
         .query({format: 'xml'})
         .reply(200, responseBody);
-      client.get().then(function(result) {
+      client.status().then(function(result) {
         checkResultMatchResponseBody(result);
         done();
       }).catch(function(err) {
         done(err);
+      });
+    });
+  });
+
+  describe('action', function() {
+    it('performs a post to service resource', function(done) {
+      var client = new Client();
+      var url = client.getUrl();
+      nock(url + '/dummy-service')
+        .post('', {action: 'monitor'})
+        .reply(200, 'OK');
+      client.action({
+        service: 'dummy-service',
+        action: 'monitor'
+      }).then(function(result) {
+        result.should.equal('OK');
+        done();
+      }).catch(function(err) {
+        done(err);
+      });
+    });
+
+    it('raises an error when no options is undefined', function(done) {
+      var client = new Client();
+      client.action().catch(function(err) {
+        err.message.should.equal('Service and action must be provided.');
+        done();
+      });
+    });
+
+    it('raises an error when no service is not provided', function(done) {
+      var client = new Client({
+        action: 'monitor'
+      });
+      client.action().catch(function(err) {
+        err.message.should.equal('Service and action must be provided.');
+        done();
+      });
+    });
+
+    it('raises an error when no action is not provided', function(done) {
+      var client = new Client({
+        service: 'dummy-service'
+      });
+      client.action().catch(function(err) {
+        err.message.should.equal('Service and action must be provided.');
+        done();
       });
     });
   });
