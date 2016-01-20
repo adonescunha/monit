@@ -15,6 +15,7 @@
   "devDependencies": {
     "chai": "^3.4.1",
     "coveralls": "^2.11.6",
+    "istanbul": "^0.4.2",
     "mocha": "^2.3.4",
     "nock": "^5.2.1"
   },
