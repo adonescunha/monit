@@ -6,7 +6,7 @@ var monit                  = require('./monit');
 var Client                 = monit.Client;
 var UnsupportedActionError = monit.errors.UnsupportedActionError;
 
-var responseBody =  `
+var responseBody =  (function() {/*
   <?xml version="1.0" encoding="ISO-8859-1"?>
   <monit>
     <server>
@@ -25,7 +25,7 @@ var responseBody =  `
       </httpd>
     </server>
   </monit>
-`;
+*/}).toString().match(/[^]*\/\*([^]*)\*\/\}$/)[1];
 
 var checkResultMatchResponseBody = function(result) {
   var serverNode = result.monit.server[0];
