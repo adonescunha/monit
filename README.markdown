@@ -43,7 +43,7 @@ Retrieves the current status data from the Monit instance.
 ```js
 client.status()
   .then(function(result) {
-    console.log(result.monit.server[0].localhostname);
+    console.log(result.monit.server.localhostname);
   }).catch(function(err) {
     throw err;
   });
