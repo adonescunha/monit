@@ -28,14 +28,14 @@ var responseBody =  (function() {/*
 */}).toString().match(/[^]*\/\*([^]*)\*\/\}$/)[1];
 
 var checkResultMatchResponseBody = function(result) {
-  var serverNode = result.monit.server[0];
-  serverNode.id[0].should.equal('91767252e99b1a45f1d2a21fa42f92f8');
-  serverNode.incarnation[0].should.equal('1453203838');
-  serverNode.version[0].should.equal('5.6');
-  serverNode.poll[0].should.equal('120');
-  serverNode.startdelay[0].should.equal('0');
-  serverNode.localhostname[0].should.equal('dummy-host');
-  serverNode.controlfile[0].should.equal('/etc/monit/monitrc');
+  var serverNode = result.monit.server;
+  serverNode.id.should.equal('91767252e99b1a45f1d2a21fa42f92f8');
+  serverNode.incarnation.should.equal(1453203838);
+  serverNode.version.should.equal(5.6);
+  serverNode.poll.should.equal(120);
+  serverNode.startdelay.should.equal(0);
+  serverNode.localhostname.should.equal('dummy-host');
+  serverNode.controlfile.should.equal('/etc/monit/monitrc');
 };
 
 describe('Client', function() {
