@@ -1,10 +1,10 @@
-'use strict'
+'use strict';
 
-var should                 = require('chai').should();
-var nock                   = require('nock');
-var monit                  = require('./monit');
-var Client                 = monit.Client;
-var UnsupportedActionError = monit.errors.UnsupportedActionError;
+var should = require('chai').should()
+  , nock = require('nock')
+  , monit = require('./monit')
+  , Client = monit.Client
+  , UnsupportedActionError = monit.errors.UnsupportedActionError;
 
 var responseBody =  (function() {/*
   <?xml version="1.0" encoding="ISO-8859-1"?>
@@ -107,7 +107,7 @@ describe('Client', function() {
     });
 
     it('builds monit host URL from options', function() {
-      subject.should.equal('http://admin:monit@localhost:2812')
+      subject.should.equal('http://admin:monit@localhost:2812');
     });
   });
 
@@ -121,7 +121,7 @@ describe('Client', function() {
     });
 
     it('builds monit host URL from options', function() {
-      subject.should.equal('http://admin:monit@localhost:2812/_status?format=xml')
+      subject.should.equal('http://admin:monit@localhost:2812/_status?format=xml');
     });
   });
 

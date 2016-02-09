@@ -1,0 +1,13 @@
+{
+  "node": true,
+  "laxcomma": true,
+  "globals": {
+    "require": false,
+    "module": false,
+    "describe": false,
+    "before": false,
+    "beforeEach": false,
+    "afterEach": false,
+    "it": false
+  }
+}
